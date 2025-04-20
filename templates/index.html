@@ -68,12 +68,12 @@
 </div>
 {% else %}
 <div class="alert alert-info text-center" role="alert">
-    <h4 class="alert-heading">No Teachers Found</h4>
-    <p>There are currently no teachers in the system. If you're an administrator, please add some teachers.</p>
+    <h4 class="alert-heading">Keine Lehrer gefunden</h4>
+    <p>Es sind derzeit keine Lehrer im System. Wenn Sie Administrator sind, fügen Sie bitte einige Lehrer hinzu.</p>
     {% if current_user.is_authenticated %}
     <hr>
     <p class="mb-0">
-        <a href="{{ url_for('add_teacher') }}" class="btn btn-primary">Add a Teacher</a>
+        <a href="{{ url_for('add_teacher') }}" class="btn btn-primary">Lehrer hinzufügen</a>
     </p>
     {% endif %}
 </div>

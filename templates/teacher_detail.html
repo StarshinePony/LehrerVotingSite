@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ teacher.name }} - Teacher Rating{% endblock %}
+{% block title %}{{ teacher.name }} - Lehrerbewertung{% endblock %}
 
 {% block content %}
 <div class="row mb-4">
     <div class="col-12">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Startseite</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{ teacher.name }}</li>
             </ol>
         </nav>
@@ -21,7 +21,7 @@
                 <h3 class="mb-0">{{ teacher.name }}</h3>
             </div>
             <div class="card-body">
-                <h5>{{ teacher.subject }} Teacher</h5>
+                <h5>{{ teacher.subject }}-Lehrer</h5>
                 <div class="d-flex align-items-center mb-3">
                     <span class="badge bg-primary rating-badge me-2">{{ teacher.avg_rating }}</span>
                     <div class="star-rating">
@@ -35,20 +35,20 @@
                             {% endif %}
                         {% endfor %}
                     </div>
-                    <span class="ms-2 text-muted">({{ teacher.rating_count }} ratings)</span>
+                    <span class="ms-2 text-muted">({{ teacher.rating_count }} Bewertungen)</span>
                 </div>
                 <div class="mb-3">
-                    <h5>Biography</h5>
-                    <p>{{ teacher.bio or 'No biography available.' }}</p>
+                    <h5>Biografie</h5>
+                    <p>{{ teacher.bio or 'Keine Biografie verfügbar.' }}</p>
                 </div>
-                <p class="text-muted">Teacher since {{ teacher.date_added.strftime('%B %d, %Y') }}</p>
+                <p class="text-muted">Lehrer seit {{ teacher.date_added.strftime('%d.%m.%Y') }}</p>
             </div>
         </div>
 
         <!-- Rating Chart -->
         <div class="card mb-4">
             <div class="card-header">
-                <h5 class="mb-0">Rating Distribution</h5>
+                <h5 class="mb-0">Bewertungsverteilung</h5>
             </div>
             <div class="card-body">
                 <div class="chart-container">
@@ -60,14 +60,14 @@
         <!-- Rating Form -->
         <div class="card mb-4">
             <div class="card-header">
-                <h5 class="mb-0">Rate This Teacher</h5>
+                <h5 class="mb-0">Diesen Lehrer bewerten</h5>
             </div>
             <div class="card-body">
                 {% if has_rated %}
                 <div class="already-voted">
                     <i class="fas fa-info-circle me-2"></i>
-                    <strong>You have already rated this teacher.</strong> 
-                    <p class="mb-0">You can only submit one rating per teacher from your IP address.</p>
+                    <strong>Sie haben diesen Lehrer bereits bewertet.</strong> 
+                    <p class="mb-0">Sie können nur eine Bewertung pro Lehrer von Ihrer IP-Adresse aus abgeben.</p>
                 </div>
                 {% else %}
                 <form method="POST">
@@ -105,7 +105,7 @@
     <div class="col-md-4">
         <div class="card">
             <div class="card-header">
-                <h5 class="mb-0">Student Ratings</h5>
+                <h5 class="mb-0">Schülerbewertungen</h5>
             </div>
             <div class="card-body p-0">
                 {% if ratings %}
@@ -122,19 +122,19 @@
                                     {% endif %}
                                 {% endfor %}
                             </div>
-                            <small class="text-muted">{{ rating.timestamp.strftime('%B %d, %Y') }}</small>
+                            <small class="text-muted">{{ rating.timestamp.strftime('%d.%m.%Y') }}</small>
                         </div>
                         {% if rating.comment %}
                         <p class="mb-0">{{ rating.comment }}</p>
                         {% else %}
-                        <p class="text-muted mb-0"><em>No comment provided</em></p>
+                        <p class="text-muted mb-0"><em>Kein Kommentar abgegeben</em></p>
                         {% endif %}
                     </div>
                     {% endfor %}
                 </div>
                 {% else %}
                 <div class="text-center p-4">
-                    <p class="mb-0">No ratings yet. Be the first to rate this teacher!</p>
+                    <p class="mb-0">Noch keine Bewertungen. Seien Sie der Erste, der diesen Lehrer bewertet!</p>
                 </div>
                 {% endif %}
             </div>

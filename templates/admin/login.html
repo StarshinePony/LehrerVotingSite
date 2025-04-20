@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
-{% block title %}Admin Login - Teacher Ratings{% endblock %}
+{% block title %}Admin-Login - Lehrerbewertungen{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-6 col-lg-5">
         <div class="card">
-            <div class="card-header bg-primary text-white">
-                <h4 class="mb-0">Admin Login</h4>
+            <div class="card-header">
+                <h4 class="mb-0">Admin-Login</h4>
             </div>
             <div class="card-body">
                 <form method="POST" action="{{ url_for('admin_login') }}">
@@ -15,7 +15,7 @@
                     
                     <div class="mb-3">
                         {{ form.username.label(class="form-label") }}
-                        {{ form.username(class="form-control", placeholder="Enter your username") }}
+                        {{ form.username(class="form-control", placeholder="Benutzername eingeben") }}
                         {% if form.username.errors %}
                         <div class="invalid-feedback d-block">
                             {% for error in form.username.errors %}
@@ -27,7 +27,7 @@
                     
                     <div class="mb-3">
                         {{ form.password.label(class="form-label") }}
-                        {{ form.password(class="form-control", placeholder="Enter your password") }}
+                        {{ form.password(class="form-control", placeholder="Passwort eingeben") }}
                         {% if form.password.errors %}
                         <div class="invalid-feedback d-block">
                             {% for error in form.password.errors %}
@@ -43,7 +43,7 @@
                 </form>
             </div>
             <div class="card-footer text-center">
-                <small class="text-muted">Admin access only. Students should use the home page to rate teachers.</small>
+                <small class="text-muted">Nur für Administratoren. Schüler sollten die Startseite verwenden, um Lehrer zu bewerten.</small>
             </div>
         </div>
     </div>
