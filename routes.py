@@ -39,7 +39,7 @@ def teacher_detail(teacher_id):
     
     if form.validate_on_submit():
         if has_rated:
-            flash('You have already rated this teacher.', 'warning')
+            flash('Sie haben diesen Lehrer bereits bewertet.', 'warning')
             return redirect(url_for('teacher_detail', teacher_id=teacher_id))
             
         try:
@@ -51,15 +51,15 @@ def teacher_detail(teacher_id):
             )
             db.session.add(rating)
             db.session.commit()
-            flash('Your rating has been submitted. Thank you!', 'success')
+            flash('Ihre Bewertung wurde übermittelt. Vielen Dank!', 'success')
             return redirect(url_for('teacher_detail', teacher_id=teacher_id))
         except IntegrityError:
             db.session.rollback()
-            flash('You have already rated this teacher.', 'warning')
+            flash('Sie haben diesen Lehrer bereits bewertet.', 'warning')
         except Exception as e:
             db.session.rollback()
             logging.error(f"Error submitting rating: {e}")
-            flash('An error occurred. Please try again.', 'danger')
+            flash('Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.', 'danger')
     
     # Get all ratings for this teacher
     ratings = Rating.query.filter_by(teacher_id=teacher_id).order_by(Rating.timestamp.desc()).all()
@@ -82,10 +82,10 @@ def admin_login():
         admin = Admin.query.filter_by(username=form.username.data).first()
         if admin and check_password_hash(admin.password_hash, form.password.data):
             login_user(admin)
-            flash('Login successful!', 'success')
+            flash('Anmeldung erfolgreich!', 'success')
             next_page = request.args.get('next')
             return redirect(next_page or url_for('admin_dashboard'))
-        flash('Invalid username or password', 'danger')
+        flash('Ungültiger Benutzername oder Passwort', 'danger')
     return render_template('admin/login.html', form=form)
 
 @app.route('/admin/logout')
@@ -149,7 +149,7 @@ def teacher_ratings_data(teacher_id):
     distribution = teacher.rating_distribution
     
     data = {
-        'labels': ['1 Star', '2 Stars', '3 Stars', '4 Stars', '5 Stars'],
+        'labels': ['1 Stern', '2 Sterne', '3 Sterne', '4 Sterne', '5 Sterne'],
         'values': [distribution[1], distribution[2], distribution[3], distribution[4], distribution[5]]
     }
     

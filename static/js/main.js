@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const deleteButtons = document.querySelectorAll('.delete-teacher');
     deleteButtons.forEach(button => {
         button.addEventListener('click', function(e) {
-            if (!confirm('Are you sure you want to delete this teacher? This action cannot be undone.')) {
+            if (!confirm('Sind Sie sicher, dass Sie diesen Lehrer löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.')) {
                 e.preventDefault();
             }
         });
@@ -33,13 +33,37 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 5000);
     });
     
-    // Star rating hover effect - for future enhancement
-    const ratingInputs = document.querySelectorAll('.rating-input');
-    if (ratingInputs.length) {
-        ratingInputs.forEach(input => {
-            input.addEventListener('change', function() {
-                // Update visual representation if needed
-            });
+    // Modern animation for cards on scroll
+    function animateOnScroll() {
+        const cards = document.querySelectorAll('.teacher-card');
+        cards.forEach((card, index) => {
+            const delay = index * 100; // staggered animation
+            setTimeout(() => {
+                card.classList.add('show');
+            }, delay);
         });
     }
+
+    // Run animation when page loads
+    if (document.querySelectorAll('.teacher-card').length > 0) {
+        animateOnScroll();
+    }
+    
+    // Apply appropriate chart theme based on current mode
+    window.updateChartTheme = function(chart) {
+        const isDarkMode = document.documentElement.getAttribute('data-bs-theme') === 'dark';
+        
+        if (chart) {
+            const textColor = isDarkMode ? '#f8f9fa' : '#212529';
+            const gridColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+            
+            chart.options.scales.x.grid.color = gridColor;
+            chart.options.scales.y.grid.color = gridColor;
+            chart.options.scales.x.ticks.color = textColor;
+            chart.options.scales.y.ticks.color = textColor;
+            chart.options.plugins.title.color = textColor;
+            
+            chart.update();
+        }
+    };
 });

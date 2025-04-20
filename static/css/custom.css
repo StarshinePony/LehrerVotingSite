@@ -1,15 +1,26 @@
-/* Custom styles on top of Bootstrap */
+/* Custom styles for minimalist design with light/dark mode support */
+
+:root {
+    --card-border-radius: 0.5rem;
+    --transition-speed: 0.3s;
+}
+
+/* Smoother transitions for theme switching */
+body {
+    transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+}
 
 /* Rating stars styling */
 .star-rating {
-    color: #ffc107; /* Bootstrap warning color for stars */
-    font-size: 1.25rem;
+    color: #ffc107; /* Stars are always gold/yellow in both themes */
+    font-size: 1.2rem;
 }
 
-/* Rating cards */
+/* Rating cards with minimalist design */
 .rating-card {
-    border-left: 4px solid var(--bs-primary);
+    border-left: 3px solid var(--bs-primary);
     margin-bottom: 1rem;
+    background-color: rgba(var(--bs-primary-rgb), 0.05);
 }
 
 /* Make charts responsive */
@@ -18,33 +29,90 @@
     margin: auto;
     height: 300px;
     width: 100%;
+    border-radius: var(--card-border-radius);
 }
 
-/* Teacher cards on the homepage */
+/* Minimalist teacher cards */
 .teacher-card {
-    transition: transform 0.3s ease;
+    transition: all var(--transition-speed) ease;
+    border-radius: var(--card-border-radius);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    overflow: hidden;
+    border: none;
 }
 
 .teacher-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 /* Admin panel highlight */
 .admin-header {
-    background-color: var(--bs-dark);
-    border-bottom: 3px solid var(--bs-primary);
-}
-
-/* Rating score display */
-.rating-badge {
-    font-size: 1.2rem;
-    padding: 0.5rem 0.8rem;
-}
-
-/* Already voted notification */
-.already-voted {
-    background-color: rgba(var(--bs-info-rgb), 0.1);
-    border-left: 4px solid var(--bs-info);
+    border-bottom: 2px solid var(--bs-primary);
+    border-radius: var(--card-border-radius);
     padding: 1rem;
     margin-bottom: 1.5rem;
+}
+
+/* Modern rating badge */
+.rating-badge {
+    font-size: 1.2rem;
+    padding: 0.4rem 0.7rem;
+    border-radius: 50%;
+    background-color: var(--bs-primary);
+}
+
+/* Already voted notification with minimalist style */
+.already-voted {
+    background-color: rgba(var(--bs-info-rgb), 0.08);
+    border-left: 3px solid var(--bs-info);
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 0 var(--card-border-radius) var(--card-border-radius) 0;
+}
+
+/* Navbar styling */
+.navbar {
+    border-bottom: 1px solid rgba(var(--bs-primary-rgb), 0.2);
+    padding: 0.8rem 0;
+}
+
+/* Theme toggle button */
+#theme-toggle {
+    padding: 0.4rem 0.6rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(var(--bs-primary-rgb), 0.1);
+    color: var(--bs-primary);
+    transition: all var(--transition-speed) ease;
+}
+
+#theme-toggle:hover {
+    background-color: rgba(var(--bs-primary-rgb), 0.2);
+}
+
+/* Cards with cleaner design */
+.card {
+    border: none;
+    border-radius: var(--card-border-radius);
+    box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.card-header {
+    border-bottom: 1px solid rgba(var(--bs-primary-rgb), 0.1);
+    background-color: transparent;
+}
+
+/* Better buttons */
+.btn {
+    border-radius: 0.35rem;
+    font-weight: 500;
+}
+
+/* Footer styling */
+footer {
+    border-top: 1px solid rgba(var(--bs-secondary-rgb), 0.1);
 }

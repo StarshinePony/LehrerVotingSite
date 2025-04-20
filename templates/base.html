@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="de" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Teacher Ratings{% endblock %}</title>
-    <!-- Bootstrap CSS (Dark Theme) -->
+    <title>{% block title %}Lehrerbewertungen{% endblock %}</title>
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css">
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -14,10 +14,10 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg">
         <div class="container">
             <a class="navbar-brand" href="{{ url_for('index') }}">
-                <i class="fas fa-chalkboard-teacher me-2"></i>Teacher Ratings
+                <i class="fas fa-chalkboard-teacher me-2"></i>Lehrerbewertungen
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,22 +27,28 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == url_for('index') %}active{% endif %}" 
-                           href="{{ url_for('index') }}">Home</a>
+                           href="{{ url_for('index') }}">Startseite</a>
                     </li>
                     {% if current_user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link {% if '/admin' in request.path %}active{% endif %}" 
-                           href="{{ url_for('admin_dashboard') }}">Admin Dashboard</a>
+                           href="{{ url_for('admin_dashboard') }}">Admin-Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('admin_logout') }}">Logout</a>
+                        <a class="nav-link" href="{{ url_for('admin_logout') }}">Abmelden</a>
                     </li>
                     {% else %}
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == url_for('admin_login') %}active{% endif %}" 
-                           href="{{ url_for('admin_login') }}">Admin Login</a>
+                           href="{{ url_for('admin_login') }}">Admin-Login</a>
                     </li>
                     {% endif %}
+                    <li class="nav-item">
+                        <button id="theme-toggle" class="btn btn-sm ms-2">
+                            <i class="fas fa-moon" id="dark-icon"></i>
+                            <i class="fas fa-sun d-none" id="light-icon"></i>
+                        </button>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -68,9 +74,9 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-dark text-center text-white py-4 mt-4">
+    <footer class="text-center py-4 mt-4">
         <div class="container">
-            <p class="mb-0">© 2023 Teacher Ratings. All rights reserved.</p>
+            <p class="mb-0">© 2025 Lehrerbewertungen. Alle Rechte vorbehalten.</p>
         </div>
     </footer>
 
@@ -80,6 +86,45 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Custom JS -->
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    
+    <!-- Theme toggle script -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const themeToggle = document.getElementById('theme-toggle');
+        const htmlElement = document.documentElement;
+        const darkIcon = document.getElementById('dark-icon');
+        const lightIcon = document.getElementById('light-icon');
+        
+        // Check for saved theme preference or use preferred color scheme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+          htmlElement.setAttribute('data-bs-theme', savedTheme);
+          updateIcons(savedTheme);
+        }
+        
+        // Theme toggle button event listener
+        themeToggle.addEventListener('click', function() {
+          const currentTheme = htmlElement.getAttribute('data-bs-theme');
+          const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+          
+          htmlElement.setAttribute('data-bs-theme', newTheme);
+          localStorage.setItem('theme', newTheme);
+          
+          updateIcons(newTheme);
+        });
+        
+        function updateIcons(theme) {
+          if (theme === 'dark') {
+            darkIcon.classList.remove('d-none');
+            lightIcon.classList.add('d-none');
+          } else {
+            darkIcon.classList.add('d-none');
+            lightIcon.classList.remove('d-none');
+          }
+        }
+      });
+    </script>
+    
     {% block extra_js %}{% endblock %}
 </body>
 </html>
