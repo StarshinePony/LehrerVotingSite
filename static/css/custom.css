@@ -1,0 +1,50 @@
+/* Custom styles on top of Bootstrap */
+
+/* Rating stars styling */
+.star-rating {
+    color: #ffc107; /* Bootstrap warning color for stars */
+    font-size: 1.25rem;
+}
+
+/* Rating cards */
+.rating-card {
+    border-left: 4px solid var(--bs-primary);
+    margin-bottom: 1rem;
+}
+
+/* Make charts responsive */
+.chart-container {
+    position: relative;
+    margin: auto;
+    height: 300px;
+    width: 100%;
+}
+
+/* Teacher cards on the homepage */
+.teacher-card {
+    transition: transform 0.3s ease;
+}
+
+.teacher-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Admin panel highlight */
+.admin-header {
+    background-color: var(--bs-dark);
+    border-bottom: 3px solid var(--bs-primary);
+}
+
+/* Rating score display */
+.rating-badge {
+    font-size: 1.2rem;
+    padding: 0.5rem 0.8rem;
+}
+
+/* Already voted notification */
+.already-voted {
+    background-color: rgba(var(--bs-info-rgb), 0.1);
+    border-left: 4px solid var(--bs-info);
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}

@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard - Teacher Ratings{% endblock %}
+
+{% block content %}
+<div class="admin-header p-3 rounded mb-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <h2 class="mb-0">Admin Dashboard</h2>
+        <a href="{{ url_for('add_teacher') }}" class="btn btn-success">
+            <i class="fas fa-plus-circle me-2"></i>Add New Teacher
+        </a>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <h4 class="mb-0">Manage Teachers</h4>
+    </div>
+    <div class="card-body p-0">
+        {% if teachers %}
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Subject</th>
+                        <th>Average Rating</th>
+                        <th>Total Ratings</th>
+                        <th>Date Added</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for teacher in teachers %}
+                    <tr>
+                        <td>{{ teacher.name }}</td>
+                        <td>{{ teacher.subject }}</td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <span class="badge bg-primary me-2">{{ teacher.avg_rating }}</span>
+                                <div class="star-rating small">
+                                    {% for i in range(5) %}
+                                        {% if i < teacher.avg_rating|int %}
+                                            <i class="fas fa-star"></i>
+                                        {% elif (i < (teacher.avg_rating|int + 0.5)) and (i >= teacher.avg_rating|int) %}
+                                            <i class="fas fa-star-half-alt"></i>
+                                        {% else %}
+                                            <i class="far fa-star"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </td>
+                        <td>{{ teacher.rating_count }}</td>
+                        <td>{{ teacher.date_added.strftime('%Y-%m-%d') }}</td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <a href="{{ url_for('teacher_detail', teacher_id=teacher.id) }}" 
+                                   class="btn btn-sm btn-info" 
+                                   data-bs-toggle="tooltip" 
+                                   title="View Teacher">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="{{ url_for('edit_teacher', teacher_id=teacher.id) }}" 
+                                   class="btn btn-sm btn-warning" 
+                                   data-bs-toggle="tooltip" 
+                                   title="Edit Teacher">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form action="{{ url_for('delete_teacher', teacher_id=teacher.id) }}" method="POST" class="d-inline">
+                                    <button type="submit" class="btn btn-sm btn-danger delete-teacher" 
+                                            data-bs-toggle="tooltip" 
+                                            title="Delete Teacher">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="alert alert-info m-3" role="alert">
+            <h5 class="alert-heading">No Teachers Found</h5>
+            <p>There are currently no teachers in the system.</p>
+            <hr>
+            <p class="mb-0">
+                <a href="{{ url_for('add_teacher') }}" class="btn btn-primary">Add a Teacher</a>
+            </p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Dashboard Stats - Could be expanded in the future -->
+<div class="row">
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">Total Teachers</h5>
+                <p class="display-4">{{ teachers|length }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">Total Ratings</h5>
+                <p class="display-4">{{ teachers|sum(attribute='rating_count') }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">Average Rating</h5>
+                {% set total_avg = (teachers|sum(attribute='avg_rating') / teachers|length) if teachers|length > 0 else 0 %}
+                <p class="display-4">{{ "%.1f"|format(total_avg) }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}Teacher Ratings - Home{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="p-5 mb-4 bg-dark rounded-3">
+            <div class="container-fluid py-2">
+                <h1 class="display-5 fw-bold">Teacher Ratings Portal</h1>
+                <p class="fs-4">Welcome to the Teacher Ratings platform. Here you can view and rate your teachers.</p>
+                <p>Each student can submit one rating per teacher based on IP address.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-12">
+        <h2>Our Teachers</h2>
+        <hr>
+    </div>
+</div>
+
+{% if teachers %}
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    {% for teacher in teachers %}
+    <div class="col">
+        <div class="card h-100 teacher-card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">{{ teacher.name }}</h5>
+            </div>
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-muted">{{ teacher.subject }}</h6>
+                
+                <div class="d-flex align-items-center mb-3">
+                    <span class="badge bg-primary rating-badge me-2">{{ teacher.avg_rating }}</span>
+                    <div class="star-rating">
+                        {% for i in range(5) %}
+                            {% if i < teacher.avg_rating|int %}
+                                <i class="fas fa-star"></i>
+                            {% elif (i < (teacher.avg_rating|int + 0.5)) and (i >= teacher.avg_rating|int) %}
+                                <i class="fas fa-star-half-alt"></i>
+                            {% else %}
+                                <i class="far fa-star"></i>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <span class="ms-2 text-muted">({{ teacher.rating_count }} ratings)</span>
+                </div>
+                
+                <p class="card-text">
+                    {% if teacher.bio %}
+                        {{ teacher.bio|truncate(100) }}
+                    {% else %}
+                        <em>No biography available.</em>
+                    {% endif %}
+                </p>
+            </div>
+            <div class="card-footer text-center">
+                <a href="{{ url_for('teacher_detail', teacher_id=teacher.id) }}" class="btn btn-outline-primary">
+                    View Details & Rate
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-info text-center" role="alert">
+    <h4 class="alert-heading">No Teachers Found</h4>
+    <p>There are currently no teachers in the system. If you're an administrator, please add some teachers.</p>
+    {% if current_user.is_authenticated %}
+    <hr>
+    <p class="mb-0">
+        <a href="{{ url_for('add_teacher') }}" class="btn btn-primary">Add a Teacher</a>
+    </p>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

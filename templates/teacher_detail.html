@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ teacher.name }} - Teacher Rating{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ teacher.name }}</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h3 class="mb-0">{{ teacher.name }}</h3>
+            </div>
+            <div class="card-body">
+                <h5>{{ teacher.subject }} Teacher</h5>
+                <div class="d-flex align-items-center mb-3">
+                    <span class="badge bg-primary rating-badge me-2">{{ teacher.avg_rating }}</span>
+                    <div class="star-rating">
+                        {% for i in range(5) %}
+                            {% if i < teacher.avg_rating|int %}
+                                <i class="fas fa-star"></i>
+                            {% elif (i < (teacher.avg_rating|int + 0.5)) and (i >= teacher.avg_rating|int) %}
+                                <i class="fas fa-star-half-alt"></i>
+                            {% else %}
+                                <i class="far fa-star"></i>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <span class="ms-2 text-muted">({{ teacher.rating_count }} ratings)</span>
+                </div>
+                <div class="mb-3">
+                    <h5>Biography</h5>
+                    <p>{{ teacher.bio or 'No biography available.' }}</p>
+                </div>
+                <p class="text-muted">Teacher since {{ teacher.date_added.strftime('%B %d, %Y') }}</p>
+            </div>
+        </div>
+
+        <!-- Rating Chart -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Rating Distribution</h5>
+            </div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="ratingChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Rating Form -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Rate This Teacher</h5>
+            </div>
+            <div class="card-body">
+                {% if has_rated %}
+                <div class="already-voted">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <strong>You have already rated this teacher.</strong> 
+                    <p class="mb-0">You can only submit one rating per teacher from your IP address.</p>
+                </div>
+                {% else %}
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+                    <div class="mb-3">
+                        {{ form.score.label(class="form-label") }}
+                        {{ form.score(class="form-select") }}
+                        {% if form.score.errors %}
+                        <div class="invalid-feedback d-block">
+                            {% for error in form.score.errors %}
+                            {{ error }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.comment.label(class="form-label") }}
+                        {{ form.comment(class="form-control", rows=3) }}
+                        {% if form.comment.errors %}
+                        <div class="invalid-feedback d-block">
+                            {% for error in form.comment.errors %}
+                            {{ error }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {{ form.submit(class="btn btn-primary") }}
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Right column - Ratings list -->
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Student Ratings</h5>
+            </div>
+            <div class="card-body p-0">
+                {% if ratings %}
+                <div class="list-group list-group-flush">
+                    {% for rating in ratings %}
+                    <div class="list-group-item">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div class="star-rating">
+                                {% for i in range(5) %}
+                                    {% if i < rating.score %}
+                                        <i class="fas fa-star"></i>
+                                    {% else %}
+                                        <i class="far fa-star"></i>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <small class="text-muted">{{ rating.timestamp.strftime('%B %d, %Y') }}</small>
+                        </div>
+                        {% if rating.comment %}
+                        <p class="mb-0">{{ rating.comment }}</p>
+                        {% else %}
+                        <p class="text-muted mb-0"><em>No comment provided</em></p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="text-center p-4">
+                    <p class="mb-0">No ratings yet. Be the first to rate this teacher!</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    initRatingChart({{ teacher.id }});
+});
+</script>
+{% endblock %}
