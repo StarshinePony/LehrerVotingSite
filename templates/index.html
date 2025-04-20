@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 
-{% block title %}Teacher Ratings - Home{% endblock %}
+{% block title %}Lehrerbewertungen - Startseite{% endblock %}
 
 {% block content %}
 <div class="row mb-4">
     <div class="col-12">
-        <div class="p-5 mb-4 bg-dark rounded-3">
+        <div class="p-5 mb-4 rounded-3">
             <div class="container-fluid py-2">
-                <h1 class="display-5 fw-bold">Teacher Ratings Portal</h1>
-                <p class="fs-4">Welcome to the Teacher Ratings platform. Here you can view and rate your teachers.</p>
-                <p>Each student can submit one rating per teacher based on IP address.</p>
+                <h1 class="display-5 fw-bold">Lehrerbewertungsportal</h1>
+                <p class="fs-4">Willkommen auf der Lehrerbewertungsplattform. Hier können Sie Ihre Lehrer ansehen und bewerten.</p>
+                <p>Jeder Schüler kann basierend auf seiner IP-Adresse eine Bewertung pro Lehrer abgeben.</p>
             </div>
         </div>
     </div>
@@ -17,7 +17,7 @@
 
 <div class="row mb-4">
     <div class="col-12">
-        <h2>Our Teachers</h2>
+        <h2>Unsere Lehrer</h2>
         <hr>
     </div>
 </div>
@@ -46,20 +46,20 @@
                             {% endif %}
                         {% endfor %}
                     </div>
-                    <span class="ms-2 text-muted">({{ teacher.rating_count }} ratings)</span>
+                    <span class="ms-2 text-muted">({{ teacher.rating_count }} Bewertungen)</span>
                 </div>
                 
                 <p class="card-text">
                     {% if teacher.bio %}
                         {{ teacher.bio|truncate(100) }}
                     {% else %}
-                        <em>No biography available.</em>
+                        <em>Keine Biografie verfügbar.</em>
                     {% endif %}
                 </p>
             </div>
             <div class="card-footer text-center">
                 <a href="{{ url_for('teacher_detail', teacher_id=teacher.id) }}" class="btn btn-outline-primary">
-                    View Details & Rate
+                    Details & Bewerten
                 </a>
             </div>
         </div>

@@ -92,7 +92,7 @@ def admin_login():
 @login_required
 def admin_logout():
     logout_user()
-    flash('You have been logged out.', 'info')
+    flash('Sie wurden abgemeldet.', 'info')
     return redirect(url_for('index'))
 
 @app.route('/admin')
@@ -113,9 +113,9 @@ def add_teacher():
         )
         db.session.add(teacher)
         db.session.commit()
-        flash('Teacher added successfully!', 'success')
+        flash('Lehrer erfolgreich hinzugefügt!', 'success')
         return redirect(url_for('admin_dashboard'))
-    return render_template('admin/add_teacher.html', form=form, title="Add Teacher")
+    return render_template('admin/add_teacher.html', form=form, title="Lehrer hinzufügen")
 
 @app.route('/admin/teacher/edit/<int:teacher_id>', methods=['GET', 'POST'])
 @login_required
@@ -128,10 +128,10 @@ def edit_teacher(teacher_id):
         teacher.subject = form.subject.data
         teacher.bio = form.bio.data
         db.session.commit()
-        flash('Teacher updated successfully!', 'success')
+        flash('Lehrer erfolgreich aktualisiert!', 'success')
         return redirect(url_for('admin_dashboard'))
         
-    return render_template('admin/add_teacher.html', form=form, title="Edit Teacher")
+    return render_template('admin/add_teacher.html', form=form, title="Lehrer bearbeiten")
 
 @app.route('/admin/teacher/delete/<int:teacher_id>', methods=['POST'])
 @login_required
@@ -139,7 +139,7 @@ def delete_teacher(teacher_id):
     teacher = Teacher.query.get_or_404(teacher_id)
     db.session.delete(teacher)
     db.session.commit()
-    flash('Teacher deleted successfully!', 'success')
+    flash('Lehrer erfolgreich gelöscht!', 'success')
     return redirect(url_for('admin_dashboard'))
 
 @app.route('/api/teacher/<int:teacher_id>/ratings')
@@ -158,8 +158,8 @@ def teacher_ratings_data(teacher_id):
 # Error handlers
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template('error.html', error_code=404, error_message="Page not found"), 404
+    return render_template('error.html', error_code=404, error_message="Seite nicht gefunden"), 404
 
 @app.errorhandler(500)
 def internal_server_error(e):
-    return render_template('error.html', error_code=500, error_message="Internal server error"), 500
+    return render_template('error.html', error_code=500, error_message="Interner Serverfehler"), 500
