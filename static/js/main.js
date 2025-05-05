@@ -15,10 +15,20 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Confirm delete action for teachers
-    const deleteButtons = document.querySelectorAll('.delete-teacher');
-    deleteButtons.forEach(button => {
+    const deleteTeacherButtons = document.querySelectorAll('.delete-teacher');
+    deleteTeacherButtons.forEach(button => {
         button.addEventListener('click', function(e) {
             if (!confirm('Sind Sie sicher, dass Sie diesen Lehrer löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.')) {
+                e.preventDefault();
+            }
+        });
+    });
+    
+    // Confirm delete action for ratings/comments
+    const deleteRatingButtons = document.querySelectorAll('.delete-rating');
+    deleteRatingButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            if (!confirm('Sind Sie sicher, dass Sie diese Bewertung/diesen Kommentar löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.')) {
                 e.preventDefault();
             }
         });

@@ -142,6 +142,16 @@ def delete_teacher(teacher_id):
     flash('Lehrer erfolgreich gelöscht!', 'success')
     return redirect(url_for('admin_dashboard'))
 
+@app.route('/admin/rating/delete/<int:rating_id>', methods=['POST'])
+@login_required
+def delete_rating(rating_id):
+    rating = Rating.query.get_or_404(rating_id)
+    teacher_id = rating.teacher_id
+    db.session.delete(rating)
+    db.session.commit()
+    flash('Kommentar erfolgreich gelöscht!', 'success')
+    return redirect(url_for('teacher_detail', teacher_id=teacher_id))
+
 @app.route('/api/teacher/<int:teacher_id>/ratings')
 def teacher_ratings_data(teacher_id):
     """Return the rating distribution data for a teacher in JSON format for Chart.js"""

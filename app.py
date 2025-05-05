@@ -22,11 +22,8 @@ app.secret_key = os.environ.get("SESSION_SECRET", "dev-secret-key")
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)  # needed for url_for to generate with https
 
 # Configure the database connection
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL", "postgresql://postgres:postgres@localhost/teacherratings")
-app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
-    "pool_recycle": 300,
-    "pool_pre_ping": True,
-}
+# Verwende SQLite anstatt PostgreSQL für die Entwicklung/Demo
+app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///teacher_ratings.db'
 # Initialize the app with the extension
 db.init_app(app)
 
